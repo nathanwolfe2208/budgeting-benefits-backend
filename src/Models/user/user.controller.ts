@@ -9,6 +9,7 @@ export class UserController {
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
+    console.log('\n\n\n\Received request payload:', createUserDto)
     return this.userService.create(createUserDto);
   }
 
