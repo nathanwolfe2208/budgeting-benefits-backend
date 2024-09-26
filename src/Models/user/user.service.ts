@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
+import * as bcrypt from 'bcrypt'
 
 @Injectable()
 export class UserService {
@@ -19,7 +20,9 @@ export class UserService {
     console.log(createUserDto.password)
     user.name = createUserDto.name;
     user.email = createUserDto.email;
-    user.password = createUserDto.password; // ADD HASHING FOR PASSWORD
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(createUserDto.password, salt);
+    user.password = hashedPassword;
   
     try {
       return await this.userRepository.save(user);
