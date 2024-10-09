@@ -13,4 +13,13 @@ export class User {
 
   @Column()
   password: string;
+
+  @Column('jsonb', { nullable: true })
+  monthlyInc: Record<string, number>;
+
+  @Column({ default: 0 })
+  emgfund: number;
+
+  @Column({ default: 0 })
+  savings: number;
 }

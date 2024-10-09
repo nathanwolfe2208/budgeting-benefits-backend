@@ -28,13 +28,15 @@ export class UserController {
       let user = await this.userService.findOneId(Number(identifier));
       return {
         name: user.name,
-        id: user.id
+        id: user.id,
+        monthlyInc: user.monthlyInc
       }
     } else {
       let user = await this.userService.findOneEmail(identifier);
       return {
         name: user.name,
-        id: user.id
+        id: user.id,
+        monthlyInc: user.monthlyInc
       }
     }
   }

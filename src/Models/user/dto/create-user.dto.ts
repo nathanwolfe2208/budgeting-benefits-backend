@@ -1,4 +1,4 @@
-import { IsEmail, MinLength, MaxLength } from 'class-validator';
+import { IsEmail, MinLength, MaxLength, IsObject } from 'class-validator';
 
 export class CreateUserDto {
   @IsEmail()
@@ -9,4 +9,11 @@ export class CreateUserDto {
   password: string;
 
   name: string;
+
+  @IsObject()
+  monthlyInc?: Record<string, number>;
+  
+  emgfund?: number = 0;
+
+  savings?: number = 0;
 }
