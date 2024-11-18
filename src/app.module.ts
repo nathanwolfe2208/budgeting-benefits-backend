@@ -6,6 +6,8 @@ import { UserModule } from './Models/user/user.module';
 import * as dotenv from 'dotenv';
 import { User } from './Models/user/entities/user.entity';
 import { AuthModule } from './Auth/auth.module';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 
 
 dotenv.config();
@@ -24,9 +26,19 @@ dotenv.config();
       logging: true,
     }),
     UserModule,
-    AuthModule
+    AuthModule,
+    ThrottlerModule.forRoot([{
+      ttl: 60000,
+      limit: 5, 
+    }])
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard
+    }
+  ],
 })
 export class AppModule {}
