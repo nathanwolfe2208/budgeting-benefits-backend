@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './Models/user/user.module';
 import * as dotenv from 'dotenv';
 import { User } from './Models/user/entities/user.entity';
 import { AuthModule } from './Auth/auth.module';
-import { TransactionsModule } from './Models/transactions/transactions.module';
 import { Transaction } from './Models/transactions/entities/transaction.entity';
-
+import { APP_GUARD } from '@nestjs/core';
 
 dotenv.config();
 
@@ -25,11 +25,20 @@ dotenv.config();
       synchronize: true,
       logging: true,
     }),
+    ThrottlerModule.forRoot([{
+      ttl: 60000,
+      limit: 10,
+    }]),
     UserModule,
     AuthModule,
-    TransactionsModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard
+    }
+  ],
 })
 export class AppModule {}
