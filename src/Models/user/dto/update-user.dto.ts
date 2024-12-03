@@ -1,4 +1,4 @@
-import { IsEmail, IsObject } from 'class-validator';
+import { IsEmail, IsInt, IsOptional } from 'class-validator';
 
 export class UpdateUserDto {
   @IsEmail()
@@ -6,6 +6,16 @@ export class UpdateUserDto {
 
   name?: string;
 
-  @IsObject()
-  monthlyInc?: Record<string, number>;
+  @IsOptional()
+  @IsInt()
+  monthlyInc?: number;
+
+  @IsOptional()
+  emgfund?: number;
+
+  @IsOptional()
+  savings?: number;
+
+  @IsOptional()
+  debt?: number;
 }

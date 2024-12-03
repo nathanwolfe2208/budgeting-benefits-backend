@@ -26,18 +26,11 @@ export class UserController {
   async findOneEmail(@Param('identifier') identifier: any) {
     if(!isNaN(identifier)) {
       let user = await this.userService.findOneId(Number(identifier));
-      return {
-        name: user.name,
-        id: user.id,
-        monthlyInc: user.monthlyInc
-      }
+      return user;
+
     } else {
       let user = await this.userService.findOneEmail(identifier);
-      return {
-        name: user.name,
-        id: user.id,
-        monthlyInc: user.monthlyInc
-      }
+      return user;
     }
   }
 

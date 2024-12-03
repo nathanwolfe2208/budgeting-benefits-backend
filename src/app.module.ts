@@ -9,6 +9,8 @@ import { User } from './Models/user/entities/user.entity';
 import { AuthModule } from './Auth/auth.module';
 import { Transaction } from './Models/transactions/entities/transaction.entity';
 import { APP_GUARD } from '@nestjs/core';
+import { GoalModule } from './Models/goal/goal.module';
+import { Goal } from './Models/goal/entities/goal.entity';
 
 dotenv.config();
 
@@ -21,7 +23,7 @@ dotenv.config();
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [User, Transaction],
+      entities: [User, Transaction, Goal],
       synchronize: true,
       logging: true,
     }),
@@ -31,6 +33,7 @@ dotenv.config();
     }]),
     UserModule,
     AuthModule,
+    GoalModule,
   ],
   controllers: [AppController],
   providers: [
